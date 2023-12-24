@@ -20,16 +20,14 @@
   })
 </script>
 
-<div class="grid grid-cols-4 items-center">
-  <div class="col-start-1 col-span-1 px-2 flex items-center justify-end">
-    {#if picture}
-      <img class={imgClass} src={picture} alt="user avatar" />&nbsp;
-    {/if}
+<div class="flex">
+  <div class="flex items-center justify-end rounded-lg">
+      <img class="h-[40px] w-[40px] rounded-full overflow-hidden m-2" src={picture || 'defaultAvatar.jpg'}  alt="user avatar" />&nbsp;
   </div>
-  <div
-    class="text-ellipsis overflow-hidden col-start-2 col-span-3 text-rose-700 text-lg pl-1"
+  <!-- <div
+    class="text-ellipsis overflow-hidden text-rose-700 text-lg pl-1"
     title={npub}
   >
     {name}
-  </div>
+  </div> -->
 </div>

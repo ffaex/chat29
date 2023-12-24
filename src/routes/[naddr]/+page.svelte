@@ -11,6 +11,7 @@
   import {humanDate} from '../../lib/utils.ts'
   import UserLabel from '../../components/UserLabel.svelte'
   import Header from '../../components/Header.svelte'
+    import Message from '../../components/Message.svelte'
 
   let naddr = $page.params.naddr
   let groupId: string | null = null
@@ -174,6 +175,20 @@
 
 <svelte:window on:keydown={onKeyDown} on:keyup={onKeyUp} />
 
+<style>
+  /* Hide scrollbar for Chrome, Safari and Opera */
+.hideBar::-webkit-scrollbar {
+display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hideBar {
+-ms-overflow-style: none;  /* IE and Edge */
+scrollbar-width: none;  /* Firefox */
+}
+
+</style>
+
 <header class="pb-8 h-1/6">
   <div><Header /></div>
   <div class="flex items-center">
@@ -183,7 +198,7 @@
     >
       {groupMetadata.name || groupRawName || $page.params.naddr}
     </div>
-    <div class="text-xs text-stone-400 w-3/12 text-right">{groupRawName}</div>
+    <div class="text-xs text-white w-3/12 text-right">{groupRawName}</div>
   </div>
 </header>
 {#if error}
@@ -191,51 +206,47 @@
     {error}
   </section>
 {:else}
-  <section class="row-span-9 overflow-y-auto h-4/6">
-    <div class="flex flex-col">
-      <div class="h-full overflow-auto">
-        {#each messages as message}
-          <div
-            class="grid grid-cols-12 gap-2 items-center hover:bg-emerald-100"
-            id={`evt-${message.id.substring(-6)}`}
+<div class="h-5/6 flex">
+  <div>
+    Groups will be here
+  </div>
+  <div class="h-full grow">
+    <section class="row-span-9 overflow-y-auto h-5/6 hideBar">
+      <div class="flex flex-col mx-auto w-5/6">
+        <div class="h-full overflow-auto flex-col space-y-4">
+          {#each messages as message}
+            <Message {message} {groupId} {relay}/>
+          {/each}
+        </div>
+      </div>
+    </section>
+    <section class="h-1/6 w-5/6 mx-auto">
+      <div class="h-3/4">
+        <form
+        on:submit={sendMessage}
+        class="flex gap-2 pt-4 mb-2 h-full py-4"
+      >
+        <textarea
+          class="h-full w-full bg-slate-400 rounded-lg p-2 text-black"
+          placeholder="type a message here (and use Ctrl+Enter to send)"
+          bind:value={text}
+          on:input={saveToLocalStorage}
+          readonly={readOnly}
+        />
+        <div class="">
+          <button
+            class="h-full w-full py-4 px-7 bg-primary-1100 text-white hover:bg-primary-1200 transition-colors rounded-xl flex items-center justify-center"
+            disabled={readOnly || !groupId || !relay}
           >
-            <div class="col-start-1 col-span-2">
-              <UserLabel imgClass="max-h-3.5" pubkey={message.pubkey} />
-            </div>
-            <div class="col-start-auto col-span-8">
-              {message.content}
-            </div>
-            <div
-              class="col-start-auto col-span-2 flex justify-end text-stone-400 text-xs"
-              title={new Date(message.created_at * 1000).toString()}
-            >
-              {humanDate(message.created_at)}
-            </div>
-          </div>
-        {/each}
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+          </svg>
+          
+          </button>
+        </div>
+      </form>
       </div>
-    </div>
-  </section>
-  <section class="h-1/6">
-    <form
-      on:submit={sendMessage}
-      class="grid grid-cols-7 gap-2 pt-4 mb-2 h-full py-4"
-    >
-      <textarea
-        class="h-full w-full bg-stone-100 col-span-6"
-        placeholder="type a message here (and use Ctrl+Enter to send)"
-        bind:value={text}
-        on:input={saveToLocalStorage}
-        readonly={readOnly}
-      />
-      <div class="col-span-1">
-        <button
-          class="h-full w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-400 transition-colors"
-          disabled={readOnly || !groupId || !relay}
-        >
-          send
-        </button>
-      </div>
-    </form>
-  </section>
+    </section>  
+  </div>
+</div>
 {/if}

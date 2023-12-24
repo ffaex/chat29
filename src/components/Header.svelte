@@ -5,7 +5,7 @@
 
 <div class="flex justify-between">
   <div>
-    <a href="/" class="text-stone-600 text-lg hover:underline">chat29</a>
+    <a href="/" class="text-white text-lg hover:underline">chat29</a>
     <span class="text-xs"
       >: <a
         href="https://github.com/nostr-protocol/nips/blob/simple-chat-groups/29.md"

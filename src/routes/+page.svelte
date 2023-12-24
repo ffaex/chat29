@@ -69,11 +69,11 @@
 <div class="grid grid-cols-7 gap-2">
   <column class="col-span-3">
     <div class="mt-4">
-      type relay url: <input bind:value={relayUrl} on:input={tryConnect} />
+      type relay url: <input class="bg-slate-400 rounded-lg p-2 text-black" bind:value={relayUrl} on:input={tryConnect} />
     </div>
     <div class="mt-2 text-right">
       {#if relay || connecting || failed}
-        <span class="text-stone-500">{relay?.url || relayUrl}</span>
+        <span class="text-white">{relay?.url || relayUrl}</span>
       {/if}
       {#if relay}
         <span class="text-green-700">connected</span>
@@ -102,9 +102,9 @@
     >or</column
   >
   <column class="col-span-3">
-    <div class="mt-4 flex items-center">
+    <div class="mt-4 flex items-cente">
       type a group code: <textarea
-        class="ml-2 h-48"
+        class="ml-2 h-48 bg-slate-400 rounded-lg p-2 text-black w-full"
         bind:value={naddr}
         on:input={parse}
       />
