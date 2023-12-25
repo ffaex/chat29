@@ -134,7 +134,10 @@ id={`evt-${message.id.substring(-6)}`}
 
 
   
-  <div class="w-full h-full">{message.content}</div>
+  <div class="flex items-center space-x-2">
+    <div>{message.content}</div>
+    <div class="text-xs text-stone-300 self-end">{humanDate(message.created_at)}</div>
+  </div>
 </div>
 
 <!-- <div
